@@ -8,7 +8,7 @@ import pe.egcc.cepsuni.ventaapp.service.CompFactory;
 public class Prueba02 {
 
   public static void main(String[] args) {
-    CompAbstract bean = CompFactory.getComprobante(CompFactory.COMP_BOLETA);
+    CompAbstract bean = CompFactory.getComprobante(CompFactory.COMP_FACTURA);
     ConceptoDto[] repo = bean.procesar(356.78);
     Arrays.stream(repo).forEach(dto -> System.out.println(
         dto.getConcepto() + "\t" + dto.getValor()));
