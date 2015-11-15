@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"           
+      xmlns:p="http://primefaces.org/ui">
+    <h:form id="frmSolicitudServicio" onsubmit="return checkSubmit();" title="#{i18n['solicitud.servicio.panel']} - #{solicitudServicioMBean.dto.id}">
+        <p:panelGrid id="pnlSolicitudServicio" columns="4" >
+            <h:outputLabel value="#{i18n['solicitud.servicio.id']}" />
+            <h:outputLabel value="#{solicitudServicioMBean.dto.id}" />
+
+            <h:outputLabel value="#{i18n['solicitud.servicio.usuario']}" />
+            <h:outputLabel value="#{solicitudServicioMBean.dto.usuarioExternoDto.nombresCompletos}" />
+
+            <h:outputLabel value="#{i18n['solicitud.servicio.chofer']}" />
+            <h:outputLabel value="#{solicitudServicioMBean.dto.choferExternoDto.nombresCompletos}" />
+
+            <h:outputLabel value="#{i18n['solicitud.servicio.estado']}" />
+            <h:outputLabel value="#{solicitudServicioMBean.dto.estadoTexto}" />
+
+            <h:outputLabel value="#{i18n['solicitud.servicio.origen']}" />
+            <h:outputLabel value="#{solicitudServicioMBean.dto.origen}" />
+
+            <h:outputLabel value="#{i18n['solicitud.servicio.numero']}" />
+            <h:outputLabel value="#{solicitudServicioMBean.dto.numero}" />
+
+            <h:outputLabel value="#{i18n['solicitud.servicio.referencia']}" />
+            <h:outputLabel value="#{solicitudServicioMBean.dto.referencia}" />
+
+            <h:outputLabel value="#{i18n['solicitud.servicio.distrito']}" />
+            <h:outputLabel value="#{solicitudServicioMBean.dto.distrito}" />
+
+            <h:outputLabel value="#{i18n['solicitud.servicio.fecha.confirmacion']}" />
+            <h:outputLabel value="#{solicitudServicioMBean.dto.fechaConfirmacion}" >
+                <f:convertDateTime pattern="#{applicationMBean.formatoFechaHora}" />
+            </h:outputLabel>
+
+            <h:outputLabel value="#{i18n['solicitud.servicio.fecha']}" />
+            <h:outputLabel value="#{solicitudServicioMBean.dto.fecha}" >
+                <f:convertDateTime pattern="#{applicationMBean.formatoFechaHora}" />
+            </h:outputLabel>
+
+            <h:outputLabel value="#{i18n['solicitud.servicio.comentario']}" />
+            <h:outputLabel value="#{solicitudServicioMBean.dto.comentario}" />
+        </p:panelGrid>
+    </h:form>
+</html>

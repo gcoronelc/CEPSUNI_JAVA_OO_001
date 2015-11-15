@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"   
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/views/plantilla.xhtml">
+
+        <ui:define name="contenido">                     
+            <h:form onsubmit="return checkSubmit();"  id="frmPrincipal">            
+                <p:panel id="pnlPrincipal" header="#{i18n['catalogo.parametro.panel']}" style="#{applicationMBean.estiloTitulo}">
+                    <h:panelGrid id="pgFormDto" columns="6" cellpadding="4">
+                        <h:outputLabel value="#{i18n['general.label.id']}" styleClass="label" rendered="#{catalogoParametroMBean.accionParametro != 1}"/>
+                        <h:outputText value="#{catalogoParametroMBean.parametroDto.id}" rendered="#{catalogoParametroMBean.accionParametro != 1}" styleClass="txtCampo"/>
+
+                        <h:outputLabel styleClass="label" value="#{i18n['parametro.label.descripcion']}"/>
+                        <p:inputText id="itNombre" label="#{i18n['parametro.label.descripcion']}"
+                                     value="#{catalogoParametroMBean.parametroDto.descripcion}"  readonly="#{catalogoParametroMBean.accionParametro == 3}"
+                                     required="true" size="70" styleClass="txtCampoObligatorio">
+                            <f:validateLength maximum="200" minimum="1" />
+                            <f:ajax />
+                        </p:inputText>
+
+                        <h:outputLabel styleClass="label" value="#{i18n['parametro.label.descripcion.corta']}"/>
+                        <p:inputText label="#{i18n['parametro.label.descripcion.corta']}" styleClass="txtCampo"
+                                     value="#{catalogoParametroMBean.parametroDto.descripcionCorta}"
+                                     readonly="#{catalogoParametroMBean.accionParametro == 3}" size="30">
+                            <f:validateLength maximum="20" minimum="0" />
+                        </p:inputText>                        
+
+                        <h:outputLabel styleClass="label" value="#{i18n['parametro.label.estado']}"/>                    
+                        <p:selectBooleanCheckbox value="#{catalogoParametroMBean.parametroDto.estado}"  disabled="#{catalogoParametroMBean.accionParametro == 3}"/>
+
+                        <h:outputLabel styleClass="label" value="#{i18n['parametro.label.tipo']}"/>                    
+                        <p:selectOneMenu value="#{catalogoParametroMBean.parametroDto.tipo}"
+                                         styleClass="txtCampoObligatorio"
+                                         disabled="#{catalogoParametroMBean.accionParametro == 3}">
+                            <f:selectItems value="#{catalogoParametroMBean.siTipos}" />
+                        </p:selectOneMenu>
+
+                        <h:outputLabel styleClass="label" value="#{i18n['parametro.label.valor.entero']}"/>
+                        <p:inputText label="#{i18n['parametro.label.valor.entero']}" size="15"
+                                     value="#{catalogoParametroMBean.parametroDto.valorEntero}" onkeypress="return fn_validaTecla('entero',this)"
+                                     readonly="#{sessionMBean.accion == 3}"  styleClass="txtCampo">                        
+                        </p:inputText> 
+
+                        <h:outputLabel styleClass="label" value="#{i18n['parametro.label.valor.real']}"/>
+                        <p:inputText label="#{i18n['parametro.label.valor.real']}" size="15"
+                                     value="#{catalogoParametroMBean.parametroDto.valorReal}" onkeypress="return fn_validaTecla('decimal',this)"
+                                     readonly="#{catalogoParametroMBean.accionParametro == 3}"  styleClass="txtCampo">                  
+                        </p:inputText> 
+
+                        <h:outputLabel styleClass="label" value="#{i18n['parametro.label.valor.fecha']}" />
+                        <p:calendar value="#{catalogoParametroMBean.parametroDto.valorFecha}"  pattern="#{applicationMBean.formatoFecha}" styleClass="txtCampo">
+
+                        </p:calendar>  
+
+                        <h:outputLabel styleClass="label" value="#{i18n['parametro.label.valor.cadena']}"/>
+                        <p:inputText label="#{i18n['parametro.label.valor.cadena']}" 
+                                     size="50"
+                                     value="#{catalogoParametroMBean.parametroDto.valorCadena}"
+                                     readonly="#{catalogoParametroMBean.accionParametro == 3}" >
+                            <f:validateLength maximum="200" minimum="0" />
+                        </p:inputText>   
+                        <h:outputLabel styleClass="label" value="#{i18n['parametro.label.valor.boolean']}"/>                    
+                        <p:selectBooleanCheckbox value="#{catalogoParametroMBean.parametroDto.valorBoolean}"  styleClass="txtCampo" disabled="#{catalogoParametroMBean.accionParametro == 3}"/>
+
+
+                        <h:outputLabel styleClass="label" value="#{i18n['parametro.label.catalogo.parametro.padre']}"/>                    
+                        <p:selectOneMenu value="#{catalogoParametroMBean.parametroDto.catalogoParametroPadreDto}"  converter="catalogoConvert"                                     
+                                         
+                                         styleClass="txtCampo"
+                                         disabled="#{sessionMBean.accion == 3}">
+                            <f:selectItems value="#{applicationMBean.siCatalogosActivos}" var="dto" itemLabel="#{dto.descripcion}" itemValue="#{dto}" />
+                           <!-- <p:ajax update="cboParametro" listener="#{catalogoParametroMBean.cambioCatalogoParametro}" event="change" /> -->
+                        </p:selectOneMenu>
+
+                     
+                        <h:outputLabel styleClass="label" value="#{i18n['general.label.inlinestyle']}"/>
+                        <p:inputText label="#{i18n['general.label.inlinestyle']}" 
+                                     size="50"
+                                     value="#{catalogoParametroMBean.parametroDto.inlinestyle}"
+                                     readonly="#{catalogoParametroMBean.accionParametro == 3}" >
+                            <f:validateLength maximum="100" minimum="0" />
+                        </p:inputText>   
+                    </h:panelGrid>            
+
+                   
+                </p:panel>
+
+                <p:panel id="pnlAcciones">
+                    <h:panelGrid columns="10">
+                        <p:commandButton title="#{i18n['general.label.guardar']}" ajax="false"
+                                         icon="ui-icon ui-icon-disk"
+                                         onclick="return confirm('#{i18n.general_mensaje_confirmacion}');"
+                                         value="#{i18n['general.label.guardar']}"  
+                                         action="#{catalogoParametroMBean.agregarParametro}">                                    
+                        </p:commandButton>                        
+                        <p:spacer width="10" />
+                        <p:commandButton title="#{i18n['general.label.atras']}" ajax="false" immediate="true"
+                                         icon="ui-icon ui-icon-arrowreturnthick-1-w"
+                                         value="#{i18n['general.label.atras']}" 
+                                         action="#{catalogoParametroMBean.retrocederParametro}">                                    
+                        </p:commandButton>   
+                    </h:panelGrid>
+                </p:panel>
+                
+            </h:form>   
+        </ui:define>
+    </ui:composition>
+</html>

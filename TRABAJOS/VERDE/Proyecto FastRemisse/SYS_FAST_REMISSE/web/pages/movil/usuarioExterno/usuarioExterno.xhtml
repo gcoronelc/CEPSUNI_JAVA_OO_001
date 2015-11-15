@@ -1,0 +1,130 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"            
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/views/plantilla.xhtml">
+        <ui:define name="contenido">    
+            <h:form onsubmit="return checkSubmit();"  id="frmPrincipal" enctype="multipart/form-data">                                
+                <p:panel id="pnlPrincipal" header="#{i18n['usuario.panel']}" style="#{applicationMBean.estiloTitulo}">
+                    <h:panelGrid id="pgFormDto" columns="2" cellpadding="4">
+                        <h:outputLabel value="#{i18n['general.label.id']}" styleClass="label" rendered="#{sessionMBean.accion != 1}"/>
+                        <h:outputText value="#{usuarioExternoMBean.dto.id}" rendered="#{sessionMBean.accion != 1}" style="#{applicationMBean.estiloObligatorio}"/>
+
+                        <h:outputLabel value="#{i18n['usuario.label.nombres.completos']}" styleClass="label"/>
+                        <p:inputText label="#{i18n['usuario.label.nombres.completos']}" 
+                                     value="#{usuarioExternoMBean.dto.nombresCompletos}"  readonly="#{sessionMBean.accion == 3}"
+                                     required="true" size="50" style="#{applicationMBean.estiloObligatorio}">
+                            <f:validateLength maximum="100" minimum="5" />
+                        </p:inputText>
+                       
+                        <h:outputLabel value="#{i18n['usuario.label.login']}" styleClass="label"/>
+                        <p:inputText label="#{i18n['usuario.label.login']}"  value="#{usuarioExternoMBean.dto.login}"  readonly="#{sessionMBean.accion == 3}"
+                                     required="true" size="40" style="#{applicationMBean.estiloObligatorio}">
+                            <f:validateLength maximum="30" minimum="5" />
+                        </p:inputText>
+                        <h:outputLabel value="#{i18n['usuario.label.telefono']}" styleClass="label"/>
+                        <p:inputText label="#{i18n['usuario.label.telefono']}"  value="#{usuarioExternoMBean.dto.nroTelefono}"  readonly="#{sessionMBean.accion == 3}"
+                                      size="40" style="#{applicationMBean.estiloObligatorio}">
+                            
+                        </p:inputText>
+                        
+                        <h:outputLabel value="#{i18n['usuario.label.tipo.documento']}" styleClass="label"/>
+                        <p:selectOneMenu value="#{usuarioExternoMBean.dto.tipoDocumentoDto}"  converter="parametroConvert"  
+                                         styleClass="txtCampo"  style="width: 150px"   disabled="#{sessionMBean.accion == 3}"> 
+                            <f:selectItems value="#{usuarioExternoMBean.listaTipoDocumentos}" var="parametroDto" itemLabel="#{parametroDto.descripcion}" itemValue="#{parametroDto}"/>                        
+                        </p:selectOneMenu> 
+                        <h:outputLabel value="#{i18n['usuario.label.numero.documento']}" styleClass="label"/>
+                        <p:inputText label="#{i18n['usuario.label.numero.documento']}"  value="#{usuarioExternoMBean.dto.numeroDocumento}"  readonly="#{sessionMBean.accion == 3}"
+                                     required="true" size="40" style="#{applicationMBean.estiloObligatorio}">
+                            <f:validateLength maximum="30" minimum="5" />
+                        </p:inputText>
+                        <h:outputLabel value="#{i18n['usuario.label.email']}" styleClass="label"/>
+                        <p:inputText label="#{i18n['usuario.label.email']}" onkeypress="return fn_validaTecla('email',this)"
+                                     value="#{usuarioExternoMBean.dto.email}"  readonly="#{sessionMBean.accion == 3}"
+                                     required="true" size="50" style="#{applicationMBean.estiloObligatorio}">
+                            <f:validateLength maximum="50"/>
+                        </p:inputText>
+                          <h:outputLabel styleClass="label" value="#{i18n['usuario.label.activo']}"/>                    
+                          <p:selectBooleanCheckbox value="#{usuarioExternoMBean.dto.estado}"  disabled="#{sessionMBean.accion == 3}" />
+
+                        <h:outputLabel value="#{i18n['usuario.label.contrasena']}"  styleClass="label" rendered="#{sessionMBean.accion == 1}"/>
+                        <p:password value="#{usuarioExternoMBean.dto.contraseniaActual}" feedback="true" label="#{i18n['usuario.label.contrasena']}" required="true"
+                                    rendered="#{sessionMBean.accion == 1}" size="40" style="#{applicationMBean.estiloLabel}"
+                                    weakLabel="#{i18n['usuario.msj.contrasena.debil']}" goodLabel="#{i18n['usuario.msj.contrasena.regular']}" 
+                                    promptLabel="#{i18n['usuario.msj.contrasena.requerido']}" strongLabel="#{i18n['usuario.msj.contrasena.fuerte']}">
+                            <f:validateLength maximum="16" minimum="5" />
+                        </p:password>
+                         <h:outputLabel styleClass="label" value="#{i18n['usuario.label.tipo.usuario']}"/>                    
+                        <p:selectBooleanCheckbox value="#{usuarioExternoMBean.esChofer}"  disabled="#{sessionMBean.accion == 3}" >
+                            <p:ajax update="pnlPrincipal" />
+                        </p:selectBooleanCheckbox>
+                         
+                         <h:outputLabel value="#{i18n['usuario.label.marca.auto']}" styleClass="label" rendered="#{usuarioExternoMBean.esChofer}"/>
+                        <p:selectOneMenu value="#{usuarioExternoMBean.dto.marcaAutoDto}"  converter="parametroConvert"  rendered="#{usuarioExternoMBean.esChofer}"
+                                         styleClass="txtCampo"  style="width: 150px" disabled="#{sessionMBean.accion == 3}" > 
+                            <f:selectItems value="#{usuarioExternoMBean.listaMarcaAutos}" var="parametroDto" itemLabel="#{parametroDto.descripcion}" itemValue="#{parametroDto}"/>                        
+                        </p:selectOneMenu> 
+                        <h:outputLabel value="#{i18n['usuario.label.tipo.auto']}" styleClass="label" rendered="#{usuarioExternoMBean.esChofer}"/>
+                        <p:selectOneMenu value="#{usuarioExternoMBean.dto.tipoAutoDto}"  converter="parametroConvert"  rendered="#{usuarioExternoMBean.esChofer}" 
+                                         styleClass="txtCampo" style="width: 150px"  disabled="#{sessionMBean.accion == 3}" > 
+                            <f:selectItems value="#{usuarioExternoMBean.listaTipoAutos}" var="parametroDto" itemLabel="#{parametroDto.descripcion}" itemValue="#{parametroDto}"/>                        
+                        </p:selectOneMenu> 
+                        <h:outputLabel id="olModeloAuto" value="#{i18n['usuario.externo.modelo.auto']}" styleClass="label" rendered="#{usuarioExternoMBean.esChofer}"/>
+                        <p:inputText id="itModeloAuto" label="#{i18n['usuario.externo.modelo.auto']}" rendered="#{usuarioExternoMBean.esChofer}"
+                                     value="#{usuarioExternoMBean.dto.colorAuto}"  readonly="#{sessionMBean.accion == 3}"
+                                     required="true" size="50" style="#{applicationMBean.estiloObligatorio}">
+                            <f:validateLength maximum="100" minimum="3" />
+                        </p:inputText>
+                        <h:outputLabel value="#{i18n['usuario.externo.color.auto']}" styleClass="label" rendered="#{usuarioExternoMBean.esChofer}"/>
+                        <p:inputText label="#{i18n['usuario.externo.color.auto']}" 
+                                     value="#{usuarioExternoMBean.dto.colorAuto}"  readonly="#{sessionMBean.accion == 3}" rendered="#{usuarioExternoMBean.esChofer}"
+                                     required="true" size="50" style="#{applicationMBean.estiloObligatorio}">
+                            <f:validateLength maximum="100" minimum="3" />
+                        </p:inputText>
+                        <h:outputLabel value="#{i18n['usuario.externo.tipo.licencia']}" styleClass="label" rendered="#{usuarioExternoMBean.esChofer}"/>
+                        <p:selectBooleanButton label="#{i18n['usuario.externo.tipo.licencia']}" onLabel="SI" offLabel="NO" rendered="#{usuarioExternoMBean.esChofer}"
+                                               style="width: 60px" value="#{usuarioExternoMBean.dto.licencia}" disabled="true" >
+                        </p:selectBooleanButton>
+                         <h:outputLabel value="#{i18n['usuario.externo.numero.licencia']}" styleClass="label" rendered="#{usuarioExternoMBean.esChofer}"/>
+                         <p:inputText label="#{i18n['usuario.externo.numero.licencia']}"  
+                                     value="#{usuarioExternoMBean.dto.licenciaNro}"  readonly="#{sessionMBean.accion == 3}" rendered="#{usuarioExternoMBean.esChofer}"
+                                     required="true" size="50" style="#{applicationMBean.estiloObligatorio}">
+                            <f:validateLength maximum="10" minimum="3" />
+                        </p:inputText>
+                    </h:panelGrid>      
+                    <h:panelGrid id="pgImagen" >
+                        <p:fileUpload id="fuImagenPerfil" mode="single" fileUploadListener="#{usuarioExternoMBean.subirArchivo}" uploadLabel="SUBIR IMAGEN" cancelLabel="CANCELAR" update="giImagenPerfil" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                        <p:graphicImage id="giImagenPerfil" value="#{usuarioExternoMBean.dto.imagenPerfil}" width="15" height="150" rendered="#{sessionMBean.accion != 3}"/>
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel id="pnlAcciones">
+                    <h:panelGrid columns="10">
+                        <p:commandButton title="#{i18n['general.button.guardar.tip']}" ajax="false"
+                                         icon="ui-icon ui-icon-disk" rendered="#{sessionMBean.accion!=3}"
+                                         onclick="return confirm('#{i18n.general_mensaje_confirmacion}');"
+                                         value="#{i18n['general.label.guardar']}" update=":frmPrincipal"
+                                         action="#{usuarioExternoMBean.guardar()}">                                    
+                        </p:commandButton>                        
+                        <p:spacer width="10" />
+                        <p:commandButton title="#{i18n['general.label.atras']}" ajax="false"
+                                         icon="ui-icon ui-icon-arrowreturnthick-1-w" 
+                                         value="#{i18n['general.label.atras']}" immediate="true"
+                                         action="#{usuarioExternoMBean.retroceder}">                                    
+                        </p:commandButton>                   
+
+                    </h:panelGrid>
+
+                </p:panel>
+
+
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"            
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/views/plantilla.xhtml">
+
+        <ui:define name="contenido">    
+
+            <h:form onsubmit="return checkSubmit();"  id="frmPrincipal">                                
+                <p:panel id="pnlPrincipal" header="#{i18n['usuario.titulo.cambiar.contrasena']}" style="#{applicationMBean.estiloTitulo}">
+                    <h:panelGrid id="pgFormDto" columns="2" cellpadding="4">
+
+                        <h:outputLabel value="#{i18n['usuario.label.contrasena.anterior']}"
+                                       styleClass="label" />
+                        <p:password id="isContrasena" value="#{usuarioMBean.contrasenaAnterior}" label="#{i18n['usuario.label.contrasena.anterior']}" 
+                                    feedback="false" style="#{applicationMBean.estiloObligatorio}"
+                                    size="40" required="true">                                    
+                        </p:password>
+
+                        <h:outputLabel value="#{i18n['usuario.label.contrasena.verificar.nueva']}"  styleClass="label" />
+                        <p:password value="#{usuarioMBean.contrasenaNueva}" feedback="true" label="#{i18n['usuario.label.contrasena.verificar.nueva']}" required="true"
+                                    size="40" style="#{applicationMBean.estiloObligatorio}"
+                                    weakLabel="#{i18n['usuario.msj.contrasena.debil']}" goodLabel="#{i18n['usuario.msj.contrasena.regular']}" 
+                                    promptLabel="#{i18n['usuario.msj.contrasena.requerido']}" strongLabel="#{i18n['usuario.msj.contrasena.fuerte']}">
+                            <f:validateLength maximum="20" minimum="5" />
+                        </p:password>                        
+
+                        <h:outputLabel value="#{i18n['usuario.label.contrasena.verificar']}"  styleClass="label" />
+                        <p:password value="#{usuarioMBean.contrasenaVerificar}" feedback="true" label="#{i18n['usuario.label.contrasena.verificar']}" required="true"
+                                    size="40" style="#{applicationMBean.estiloObligatorio}"
+                                    weakLabel="#{i18n['usuario.msj.contrasena.debil']}" goodLabel="#{i18n['usuario.msj.contrasena.regular']}" 
+                                    promptLabel="#{i18n['usuario.msj.contrasena.requerido']}" strongLabel="#{i18n['usuario.msj.contrasena.fuerte']}">
+                            <f:validateLength maximum="20" minimum="5" />
+                        </p:password>            
+
+                    </h:panelGrid>                             
+                </p:panel>
+                <p:panel id="pnlAcciones">
+                    <h:panelGrid columns="10">
+                        <p:commandButton title="#{i18n['general.label.guardar']}" ajax="false"
+                                         icon="ui-icon ui-icon-disk"
+                                         onclick="return confirm('#{i18n.general_mensaje_confirmacion}');"
+                                         value="#{i18n['general.label.guardar']}"
+                                         action="#{usuarioMBean.guardarContrasena}">                                    
+                        </p:commandButton>                       
+                        
+                    </h:panelGrid>
+
+                </p:panel>
+
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

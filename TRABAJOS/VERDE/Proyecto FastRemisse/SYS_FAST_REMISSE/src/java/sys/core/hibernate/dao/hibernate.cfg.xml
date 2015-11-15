@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.show_sql">false</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.OracleDialect</property>
+        <mapping class="sys.core.dto.RolDto"/>
+        <mapping class="sys.core.dto.BitacoraEntidadDto"/>
+        <mapping class="sys.core.dto.CatalogoParametroDto"/>
+        <mapping class="sys.core.dto.UsuarioDto"/>
+        <mapping class="sys.core.dto.EmpresaDto"/>
+        <mapping class="sys.core.dto.EjecucionProcesoDto"/>
+        <mapping class="sys.core.dto.OpcionSistemaDto"/>
+        <mapping class="sys.core.dto.ParametroDto"/>
+        <mapping class="sys.core.dto.PermisoDto"/>
+        <mapping class="sys.core.dto.UbigeoDto"/>
+        <mapping class="sys.core.dto.ProcedureDto"/>
+        <mapping class="sys.core.dto.ProcesoDto"/>
+        <mapping class="sys.movil.dto.LocalizacionDataDto"/>
+        <mapping class="sys.movil.dto.UsuarioExternoDto"/>
+        <mapping class="sys.movil.dto.SolicitudServicioDto"/>
+    </session-factory>
+</hibernate-configuration>
+

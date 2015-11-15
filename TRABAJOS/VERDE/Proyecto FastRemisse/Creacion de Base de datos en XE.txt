@@ -1,0 +1,13 @@
+-- Create the user 
+create user FAST_REMISSE_DB
+  identified by "FAST_REMISSE_DB"
+  default tablespace SYSTEM
+  temporary tablespace TEMP
+  profile DEFAULT
+  password expire;
+-- Grant/Revoke role privileges 
+grant connect to FAST_REMISSE_DB;
+grant resource to FAST_REMISSE_DB;
+-- Grant/Revoke system privileges 
+grant create view to FAST_REMISSE_DB;
+grant unlimited tablespace to FAST_REMISSE_DB;

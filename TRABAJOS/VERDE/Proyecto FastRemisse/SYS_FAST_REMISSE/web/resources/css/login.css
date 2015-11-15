@@ -1,0 +1,12 @@
+body {
+    background-color: #EcF2FD;
+}
+.container{
+    width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+}
+.ui-state-default .icon-login{
+    background-image: url(../resources/images/icons/l_icon.jpg);
+}

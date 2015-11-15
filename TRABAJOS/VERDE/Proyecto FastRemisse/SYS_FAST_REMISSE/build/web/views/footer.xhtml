@@ -1,0 +1,34 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <f:view contentType="text/html">
+         <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=ISO-8859-1' http-equiv="Content-Type"/>
+            </f:facet>
+
+            <f:loadBundle basename="sys.core.i18n.ApplicationResources" var="message" />
+            
+        </h:head>
+        <h:body>
+            <div align="center" style="font-size:9px;">
+                 <table  width="100%">
+                    <tr>
+                        <td  width="50%" align="left">
+                    <h:outputText value="FAST REMISSE SYSTEM VERSION 1.0" styleClass="mensajeMorado"/>
+                        </td> 
+                        <td  width="50%" align="right">
+                            <h:outputText value="- -" styleClass="mensajeMorado"/>
+                        </td> 
+                    </tr>
+                </table>
+                
+             
+            </div>
+            
+        </h:body>
+    </f:view>
+</html>

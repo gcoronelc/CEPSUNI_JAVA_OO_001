@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"           
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/views/plantilla.xhtml">
+        <ui:define name="contenido"> 
+            <h:form enctype="text/html" id="frmPrincipal" onsubmit="return checkSubmit();" >
+                <p:commandButton action="#{monitoreoServicioMBean.obtenerChoferes()}" update="frmPrincipal pnlPrincipal myScript myMap"  style="height: 30px;width: 190px" value="#{i18n['monitoreo.servicio.refrescar.mapa']}" ajax="false" process="@this" />
+                <h:panelGrid id="pnlPrincipal" title="#{i18n['monitoreo.servicio.localizacion.taxistas']}" columns="2">
+                    <h:panelGrid id="pnlMapa" columns="1">
+                        <script id="myScript" src="http://maps.google.com/maps/api/js?sensor=false" 
+                                type="text/javascript" />
+                        <p:gmap id="myMap" center="-12.077486330160667 , -77.09332689642906" zoom="10" type="normal" style="width:1000px;height:500px" model="#{monitoreoServicioMBean.mapModel}" />
+                    </h:panelGrid>
+                    <h:panelGrid id="EnvioSolicitudServicio" columns="2" cellpadding="4">
+                        <h:outputLabel  value="#{i18n['solicitud.servicio.chofer']}" style="FONT-FAMILY: 'Arial';color:red; font-weight: bold;"/>
+                        <p:autoComplete id="idAcUsuarioExterno" value="#{monitoreoServicioMBean.dto.choferExternoDto}"
+                                        completeMethod="#{applicationMBean.autoCompletarUsuarioExterno}" 
+                                        required="true" label="#{i18n['solicitud.servicio.chofer']}" readonly="#{sessionMBean.accion == 3}"
+                                        minQueryLength="3" scrollHeight="300"
+                                        converter="usuarioExternoConvert" var="sn" itemLabel="#{sn.nombresCompletos}" itemValue="#{sn}" size="70">                              
+                        </p:autoComplete>   
+                        <h:outputLabel value="#{i18n['solicitud.servicio.origen']}" styleClass="label"/>
+                        <p:inputText label="#{i18n['solicitud.servicio.origen']}" 
+                                     value="#{monitoreoServicioMBean.dto.origen}" readonly="#{sessionMBean.accion == 3}"
+                                     required="true" size="50" style="#{applicationMBean.estiloObligatorio}">
+                            <f:validateLength maximum="100" />
+                        </p:inputText>
+                        <h:outputLabel value="#{i18n['solicitud.servicio.numero']}" styleClass="label"/>
+                        <p:inputText label="#{i18n['solicitud.servicio.numero']}" 
+                                     value="#{monitoreoServicioMBean.dto.numero}" readonly="#{sessionMBean.accion == 3}"
+                                     required="true" size="50" style="#{applicationMBean.estiloObligatorio}">
+                            <f:validateLength maximum="50" />
+                        </p:inputText>
+                        <h:outputLabel value="#{i18n['solicitud.servicio.distrito']}" styleClass="label"/>
+                        <p:inputText label="#{i18n['solicitud.servicio.distrito']}" 
+                                     value="#{monitoreoServicioMBean.dto.distrito}" readonly="#{sessionMBean.accion == 3}"
+                                     required="true" size="50" style="#{applicationMBean.estiloObligatorio}">
+                            <f:validateLength maximum="100" />
+                        </p:inputText>
+                        <h:outputLabel value="#{i18n['solicitud.servicio.referencia']}" styleClass="label"/>
+                        <p:inputTextarea label="#{i18n['solicitud.servicio.referencia']}" rows="3"
+                                     value="#{monitoreoServicioMBean.dto.referencia}" readonly="#{sessionMBean.accion == 3}"
+                                     required="true"   style="#{applicationMBean.estiloObligatorio}"   >
+                            <f:validateLength maximum="100" />
+                        </p:inputTextarea>
+                        <p:panelGrid columns="1"  style="width: 100px" >
+                            <p:commandButton title="#{i18n['general.label.guardar']}"
+                                             icon="ui-icon ui-icon-plus"
+                                             value="#{i18n['general.label.guardar']}" 
+                                             ajax="false"
+                                             action="#{monitoreoServicioMBean.guardar}">                                    
+                            </p:commandButton>    
+                        </p:panelGrid>
+                    </h:panelGrid>
+                </h:panelGrid>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

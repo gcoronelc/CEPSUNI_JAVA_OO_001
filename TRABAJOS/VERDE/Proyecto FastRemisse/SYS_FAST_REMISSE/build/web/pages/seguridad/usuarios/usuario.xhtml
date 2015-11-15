@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"            
+      xmlns:p="http://primefaces.org/ui">
+ 
+        <ui:composition template="/views/plantilla.xhtml">
+
+        <ui:define name="contenido">    
+
+            <h:form onsubmit="return checkSubmit();"  id="frmPrincipal">                                
+                <p:panel id="pnlPrincipal" header="#{i18n['usuario.panel']}" style="#{applicationMBean.estiloTitulo}">
+                    <h:panelGrid id="pgFormDto" columns="2" cellpadding="4">
+                        <h:outputLabel value="#{i18n['general.label.id']}" styleClass="label" rendered="#{sessionMBean.accion != 1}"/>
+                        <h:outputText value="#{usuarioMBean.dto.id}" rendered="#{sessionMBean.accion != 1}" style="#{applicationMBean.estiloObligatorio}"/>
+
+                        <h:outputLabel value="#{i18n['usuario.label.nombres.completos']}" styleClass="label"/>
+                        <p:inputText label="#{i18n['usuario.label.nombres.completos']}" 
+                                     value="#{usuarioMBean.dto.nombresCompletos}"  readonly="#{sessionMBean.accion == 3}"
+                                     required="true" size="50" style="#{applicationMBean.estiloObligatorio}">
+                            <f:validateLength maximum="100" minimum="5" />
+                        </p:inputText>
+
+                        <h:outputLabel value="#{i18n['usuario.label.login']}" styleClass="label"/>
+                        <p:inputText label="#{i18n['usuario.label.login']}"  value="#{usuarioMBean.dto.login}"  readonly="#{sessionMBean.accion == 3}"
+                                     required="true" size="40" style="#{applicationMBean.estiloObligatorio}">
+                            <f:validateLength maximum="30" minimum="5" />
+                        </p:inputText>
+                        
+
+                        <h:outputLabel value="#{i18n['usuario.label.contrasena']}"  styleClass="label" rendered="#{sessionMBean.accion == 1}"/>
+                        <p:password value="#{usuarioMBean.dto.contraseniaActual}" feedback="true" label="#{i18n['usuario.label.contrasena']}" required="true"
+                                    rendered="#{sessionMBean.accion == 1}" size="40" style="#{applicationMBean.estiloObligatorio}"
+                                    weakLabel="#{i18n['usuario.msj.contrasena.debil']}" goodLabel="#{i18n['usuario.msj.contrasena.regular']}" 
+                                    promptLabel="#{i18n['usuario.msj.contrasena.requerido']}" strongLabel="#{i18n['usuario.msj.contrasena.fuerte']}">
+                            <f:validateLength maximum="20" minimum="5" />
+                        </p:password>
+
+                        <h:outputLabel styleClass="label" value="#{i18n['usuario.label.rol']}"/>                    
+                        <p:selectOneMenu value="#{usuarioMBean.dto.rolDto}"  converter="rolConvert"                                     
+                                         style="#{applicationMBean.estiloObligatorio}"
+                                         disabled="#{sessionMBean.accion == 3}">
+                            <f:selectItems value="#{applicationMBean.siRolesActivos}" var="dto" itemLabel="#{dto.descripcion}" itemValue="#{dto}" />
+                            <f:ajax />
+                        </p:selectOneMenu>
+                        
+                        <h:outputLabel value="#{i18n['usuario.label.email']}" styleClass="label"/>
+                        <p:inputText label="#{i18n['usuario.label.email']}" onkeypress="return fn_validaTecla('email',this)"
+                                     value="#{usuarioMBean.dto.emailLaboral}"  readonly="#{sessionMBean.accion == 3}"
+                                     required="true" size="50" style="#{applicationMBean.estiloObligatorio}">
+                            <f:validateLength maximum="50"/>
+                        </p:inputText>
+         
+                    </h:panelGrid>      
+                   
+                </p:panel>
+
+                <p:panel id="pnlAcciones">
+                    <h:panelGrid columns="10">
+                        <p:commandButton title="#{i18n['general.button.guardar.tip']}" ajax="false"
+                                         icon="ui-icon ui-icon-disk" rendered="#{sessionMBean.accion!=3}"
+                                         onclick="return confirm('#{i18n.general_mensaje_confirmacion}');"
+                                         value="#{i18n['general.label.guardar']}" 
+                                         action="#{usuarioMBean.guardar}">                                    
+                        </p:commandButton>                        
+                        <p:spacer width="10" />
+                        <p:commandButton title="#{i18n['general.label.atras']}" ajax="false"
+                                         icon="ui-icon ui-icon-arrowreturnthick-1-w"  immediate="true"
+                                         value="#{i18n['general.label.atras']}" 
+                                         action="#{usuarioMBean.retroceder}">                                    
+                        </p:commandButton>                   
+
+                    </h:panelGrid>
+
+                </p:panel>
+               
+
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+</html>

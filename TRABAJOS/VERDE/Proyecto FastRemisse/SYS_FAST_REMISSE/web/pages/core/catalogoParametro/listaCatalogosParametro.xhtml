@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"            
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/views/plantilla.xhtml">
+        <ui:define name="contenido">
+            <h:form onsubmit="return checkSubmit();"  id="frmPrincipal" styleClass="formulario">       
+                <p:panel id="pnlPrincipal" header="#{i18n['catalogo.parametro.titulo']}"  styleClass="estiloPanel">
+                    <h:panelGrid id="pgFormFilter" columns="10" cellpadding="4" styleClass="formulario">                        
+                        <h:outputLabel value="#{i18n['general.label.id']}"  styleClass="label"/>
+                        <p:inputText value="#{catalogoParametroMBean.dtoFiltro.id}" onkeypress="return fn_validaTecla('entero',this)" 
+                                     styleClass="txtCampo" size="15" maxlength="6">
+                            <f:validateLongRange minimum="0" maximum="999999" />
+                        </p:inputText>
+
+                        <h:outputLabel value="#{i18n['catalogo.parametro.label.descripcion']}" styleClass="label"/>
+                        <p:inputText label="#{i18n['catalogo.parametro.label.descripcion']}" 
+                                     value="#{catalogoParametroMBean.dtoFiltro.descripcion}" 
+                                     styleClass="txtCampo" size="70">
+                            <f:validateLength maximum="100" minimum="0" />
+                        </p:inputText>      
+                        <p:spacer width="10" />
+                        <p:commandButton icon="ui-icon ui-icon-search" title="#{i18n['general.label.buscar']}"
+                                         value="#{i18n['general.label.buscar']}" ajax="false" 
+                                        
+                                         actionListener="#{catalogoParametroMBean.buscar}">
+                            <p:ajax  update="pngTabla pgFormFilter"/>
+                        </p:commandButton>  
+                        <p:spacer width="10" />
+                        <h:outputText  value="#{catalogoParametroMBean.lista.size()} #{i18n['general.label.cantidad.encontrada']}" styleClass="mensaje" rendered="#{catalogoParametroMBean.lista!=null}"/>
+                    </h:panelGrid>   
+                </p:panel>
+
+                <p:panel id="pnlTabla" header="#{i18n['general.panel.titulo.busqueda.resultado']}" style="#{applicationMBean.estiloTitulo}">
+                    <h:panelGrid id="pngTabla" columns="1">
+                        <p:dataTable id="tblPrincipal" value="#{catalogoParametroMBean.lista}" var="dto"
+                                     emptyMessage="#{i18n['general.mensaje.no.registros']}" styleClass="estiloPanel"                            
+                                     paginator="true" rows="#{sessionMBean.cantidadRegistros}"  widgetVar="widTable">                        
+                            <p:column style="text-align:center;font-size: 10px" >
+                                <h:panelGrid id="pgBotonesGrilla" columns="10" cellspacing="10" styleClass="estiloPanelGrid">
+                                    <p:commandButton icon="ui-icon ui-icon-search" title="#{i18n['general.label.ver']}"
+                                                     action="#{catalogoParametroMBean.ver}" ajax="false"
+                                                     >
+                                        <f:setPropertyActionListener value="#{dto}" target="#{catalogoParametroMBean.dto}" />                                                                    
+                                    </p:commandButton>
+                                    
+                                    <p:commandButton icon="ui-icon ui-icon-pencil" title="#{i18n['general.label.editar']}"
+                                                     action="#{catalogoParametroMBean.editar}" ajax="false"
+                                                >
+                                        <f:setPropertyActionListener value="#{dto}" target="#{catalogoParametroMBean.dto}" />                                                                    
+                                    </p:commandButton>
+                                </h:panelGrid>
+
+                            </p:column>
+                            <p:column headerText="#{i18n['general.label.id']}"  styleClass="general">
+                                <h:outputText value="#{dto.id}" styleClass="general" />
+                            </p:column>
+                            <p:column headerText="#{i18n['catalogo.parametro.label.descripcion']}" >
+                                <h:outputText value="#{dto.descripcion}" styleClass="general" />
+                            </p:column>
+                            <p:column headerText="#{i18n['catalogo.parametro.label.estado']}" style="text-align: center" >
+                                <h:outputText value="#{dto.estadoTexto}" styleClass="general" />
+                            </p:column>
+                            <p:column headerText="#{i18n['catalogo.parametro.label.parametros']}" style="text-align: right">
+                                <h:outputText value="#{dto.listaParametros.size()}"  />
+                            </p:column>
+                            <f:facet name="header">                                
+                                <p:outputPanel style="float: left"> 
+                                    <p:commandButton title="#{i18n['general.label.nuevo.tip']}" 
+                                                     icon="ui-icon ui-icon-plus"
+                                                     value="#{i18n['general.label.nuevo']}" 
+                                                      ajax="false"                                        
+                                                     action="#{catalogoParametroMBean.nuevo}"
+                                                      >                                    
+                                    </p:commandButton>
+                                </p:outputPanel>
+                            </f:facet>                            
+                        </p:dataTable>
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,88 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"            
+      xmlns:p="http://primefaces.org/ui">
+
+      <ui:composition template="/views/plantilla.xhtml">
+
+        <ui:define name="contenido">    
+
+            <h:form onsubmit="return checkSubmit();"  id="frmPrincipal">                                
+                
+                        <p:panel id="pnlPrincipal" header="#{i18n['empresa.titulo']}" style="#{applicationMBean.estiloTitulo}">
+                            <h:panelGrid id="pgFormDto" columns="6" cellpadding="4">                                      
+
+                                <h:outputLabel value="#{i18n['empresa.label.ruc']}" styleClass="label"/>
+                                <p:inputText label="#{i18n['empresa.label.ruc']}" 
+                                             value="#{empresaMBean.dto.ruc}"  readonly="#{sessionMBean.accion == 3}"
+                                              size="25" style="#{applicationMBean.estiloObligatorio}">
+                                    <f:validateLength maximum="100"   />
+                                </p:inputText>
+      
+                                <h:outputLabel value="#{i18n['empresa.label.descripcion']}" styleClass="label"/>
+                                <p:inputText label="#{i18n['empresa.label.descripcion']}" 
+                                             value="#{empresaMBean.dto.descripcion}"  readonly="#{sessionMBean.accion == 3}"
+                                              size="80" style="#{applicationMBean.estiloObligatorio}">
+                                    <f:validateLength maximum="100"  />
+                                </p:inputText>
+
+                                <h:outputLabel value="#{i18n['empresa.label.descripcion.corta']}" styleClass="label"/>
+                                <p:inputText label="#{i18n['empresa.label.descripcion.corta']}" 
+                                             value="#{empresaMBean.dto.descripcionCorta}"  readonly="#{sessionMBean.accion == 3}"
+                                             required="false" size="50" style="#{applicationMBean.estilo}">                            
+                                </p:inputText>                       
+
+                                <h:outputLabel styleClass="label" value="#{i18n['empresa.label.pais']}"/>                    
+                         <p:selectOneMenu value="#{empresaMBean.dto.paisDto}"  converter="ubigeoConvert"   disabled="#{sessionMBean.accion == 3}"                                  
+                                                 style="#{applicationMBean.estiloObligatorio}">
+                                    <f:selectItem itemValue="1" itemLabel="#{i18n['general.campo.defecto']}"  />
+                                    <f:selectItems value="#{applicationMBean.siPaisesActivos}" var="ubigeoDto" itemLabel="#{ubigeoDto.descripcion}" itemValue="#{ubigeoDto}" />                        
+                                </p:selectOneMenu>  
+
+                              <h:outputLabel value="#{i18n['empresa.label.direccion']}" styleClass="label"/>
+                                <p:inputTextarea label="#{i18n['empresa.label.direccion']}" 
+                                                 value="#{empresaMBean.dto.direccion}"  readonly="#{sessionMBean.accion == 3}"
+                                                  cols="50" rows="2"  style="#{applicationMBean.estiloObligatorio}">
+                                    <f:validateLength maximum="100" />
+                                </p:inputTextarea> 
+
+                                <h:outputLabel value="#{i18n['empresa.label.referencia']}" styleClass="label"/>
+                                <p:inputTextarea label="#{i18n['empresa.label.referencia']}" 
+                                                 value="#{empresaMBean.dto.referencia}"  readonly="#{sessionMBean.accion == 3}"
+                                                 required="false" cols="50" rows="2"  style="#{applicationMBean.estilo}">
+                                    <f:validateLength maximum="100" />
+                                </p:inputTextarea>
+
+                                <h:outputLabel value="#{i18n['empresa.label.telefono']}" styleClass="label"/>
+                                <p:inputText label="#{i18n['empresa.label.telefono']}" 
+                                             value="#{empresaMBean.dto.telefono}"  readonly="#{sessionMBean.accion == 3}"
+                                             required="false" size="45" style="#{applicationMBean.estilo}">
+                                    <f:validateLength maximum="100" />
+                                </p:inputText>
+ 
+                                <h:outputLabel styleClass="label"  value="#{i18n['empresa.label.estado']}"/>                    
+                                <p:selectOneMenu value="#{empresaMBean.dto.estadoDto}"  converter="parametroConvert" disabled="#{sessionMBean.accion == 3}"                               
+                                                 style="#{applicationMBean.estiloObligatorio}">
+                                    <f:selectItems value="#{empresaMBean.listaEstados}" var="parametroDto" itemLabel="#{parametroDto.descripcion}" itemValue="#{parametroDto}" />                        
+                                </p:selectOneMenu>
+                            </h:panelGrid>     
+                        </p:panel>
+                        <h:panelGrid columns="10">
+                            <p:commandButton title="#{i18n['general.label.guardar']}" ajax="false"
+                                             icon="ui-icon ui-icon-disk"
+                                             onclick="return confirm('#{i18n.general_mensaje_confirmacion}');"
+                                             value="#{i18n['general.label.guardar']}" 
+                                             action="#{empresaMBean.guardar}">                                    
+                            </p:commandButton>                        
+                            <p:spacer width="10" />
+                            <p:commandButton title="#{i18n['general.label.atras']}" ajax="false"
+                                             icon="ui-icon ui-icon-arrowreturnthick-1-w" immediate="true"
+                                             value="#{i18n['general.label.atras']}"  
+                                             action="#{empresaMBean.back()}">                                    
+                            </p:commandButton>
+                        </h:panelGrid>
+            </h:form>
+        </ui:define>
+      </ui:composition>
+</html>

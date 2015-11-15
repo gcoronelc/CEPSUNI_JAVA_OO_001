@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"            
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/views/plantilla.xhtml">
+
+        <ui:define name="contenido">  
+            <h:form onsubmit="return checkSubmit();"  id="frmPrincipal">                                
+                <p:panel id="pnlPrincipal" header="#{i18n['empresa.titulo']}" style="#{applicationMBean.estiloTitulo}">
+                    <h:panelGrid id="pgFormFilter" columns="20" cellpadding="4">                        
+                        <h:outputLabel value="#{i18n['general.label.id']}"  styleClass="label"/>
+                        <p:inputText value="#{empresaMBean.dtoFiltro.id}" onkeypress="return fn_validaTecla('entero', this)"
+                                     styleClass="txtCampo"   size="10" >
+                            <f:validateLongRange   maximum="999999" />
+                        </p:inputText>
+
+                        <h:outputLabel value="#{i18n['general.label.descripcion']}" styleClass="label"/>
+                        <p:inputText label="#{i18n['general.label.descripcion']}" 
+                                     value="#{empresaMBean.dtoFiltro.descripcion}" 
+                                     size="60" styleClass="label">
+                            <f:validateLength maximum="100" />
+                        </p:inputText>    
+                        <p:spacer width="10" />
+                        <p:commandButton  
+                            title="#{i18n['general.label.buscar']}" immediate="true"
+                            value="#{i18n['general.label.buscar']}" ajax="false" style="#{applicationMBean.estiloButton}"
+                            actionListener="#{empresaMBean.buscarData}">
+                            <p:ajax  update="pnlTabla"/>
+                        </p:commandButton>  
+                        <p:spacer width="10" />
+                        <h:outputText  value="#{empresaMBean.listaFiltro.size()} #{i18n['general.label.cantidad.encontrada']}" styleClass="mensaje" rendered="#{empresaMBean.listaFiltro!=null}"/>
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel id="pnlTabla" header="#{i18n['general.panel.titulo.busqueda.resultado']}" style="#{applicationMBean.estiloTitulo}">
+
+                    <h:panelGrid columns="1">
+                        <p:dataTable id="tblPrincipal" value="#{empresaMBean.listaFiltro}" var="dto"  emptyMessage="#{i18n['general.mensaje.no.registros']}"
+                                     styleClass="txtCampo" rowKey="#{dto.id}" selectionMode="single"
+                                     paginator="true" rows="#{sessionMBean.cantidadRegistros}"  >          
+                            <p:column style="text-align:center;">
+                                <h:panelGrid id="pgBotonesGrilla" columns="10" cellspacing="10" styleClass="estiloPanelGrid">
+                                    <p:commandButton icon="ui-icon ui-icon-search" title="#{i18n['general.button.ver.tip']}"
+                                                     action="#{empresaMBean.ver}" immediate="true" ajax="false">
+                                        <f:setPropertyActionListener value="#{dto}" target="#{empresaMBean.dto}" />                                                                    
+                                    </p:commandButton>
+
+                                    <p:commandButton icon="ui-icon ui-icon-pencil" title="#{i18n['general.button.editar.tip']}"
+                                                     action="#{empresaMBean.editar}" ajax="false"  immediate="true"
+                                                     >
+                                        <f:setPropertyActionListener value="#{dto}" target="#{empresaMBean.dto}" />                                                                    
+                                    </p:commandButton>
+                                </h:panelGrid>
+                            </p:column>
+                            <p:column headerText="#{i18n['general.label.id']}"  style="text-align:center;">
+                                <h:outputText value="#{dto.id}" style="#{applicationMBean.estilo}" />
+                            </p:column>
+                            <p:column headerText="#{i18n['empresa.label.ruc']}" >
+                                <h:outputText value="#{dto.ruc}" style="#{applicationMBean.estilo}" />
+                            </p:column>
+                            <p:column headerText="#{i18n['empresa.label.descripcion']}" sortBy="#{dto.descripcion}" >
+                                <h:outputText value="#{dto.descripcion}" style="#{applicationMBean.estilo}" />
+                            </p:column>
+                            <p:column headerText="#{i18n['empresa.label.estado']}" sortBy="#{dto.estadoDto.descripcion}" >
+                                <h:outputText value="#{dto.estadoDto.descripcion}" style="#{applicationMBean.estilo}" />
+                            </p:column>    
+                            <p:column headerText="#{i18n['empresa.label.pais']}" sortBy="#{dto.paisDto.descripcion}" >
+                                <h:outputText value="#{dto.paisDto.descripcion}" style="#{applicationMBean.estilo}" />
+                            </p:column>   
+                            <p:column headerText="#{i18n['empresa.label.direccion']}">
+                                <h:outputText value="#{dto.direccion}" style="#{applicationMBean.estilo}" />
+                            </p:column>   
+                            <p:column headerText="#{i18n['empresa.label.telefono']}" >
+                                <h:outputText value="#{dto.telefono}" style="#{applicationMBean.estilo}" />
+                            </p:column>
+
+                        </p:dataTable>
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"      
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+
+        <h:head>
+            <link href="#{request.contextPath}/resources/images/icons/logo_FastRemisse.jpg" type="image/x-icon" rel="shortcut icon" />
+            <f:loadBundle basename="sys.core.i18n.ApplicationResources" var="i18n" />
+          <link type="text/css" rel="stylesheet" href="#{request.contextPath}/recursos/css/default.css" />
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/theme.css" />
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/recursos/css/syntaxhighlighter/syntaxhighlighter.css" /> 
+            <script type="text/javascript" src="#{request.contextPath}/resources/jScript/jScript.js" />
+            <title><h:outputText value="#{i18n['general.cabecera.titulo.aplicacion']}"/></title>
+            <ui:insert name="head"></ui:insert>
+
+
+        </h:head>
+
+        <h:body >
+            <div id="layout" align="center">
+                <div id="top" class="top" align="center">
+                    <h:panelGrid columns="1">
+                        <h:graphicImage value="/resources/images/icons/logo_FastRemisse.jpg" rendered="true" style="width: 200;height: 150"/> 
+                    </h:panelGrid>
+                </div>
+                <p:separator />    
+
+                <div id="content" style="width: 400px;height: 300px; border: #004276;border-style: solid; border-width: 0px;">
+
+
+                    <h:outputText value="#{i18n['login.titulo']}" styleClass="tituloPantalla" rendered="false"/>
+                    <p:separator rendered="false"/>           
+                    <h:form onsubmit="return checkSubmit();"  id="frmLogin" prependId="false" >
+
+                        <p:panel id="pnlLogin" style="width: 100%;height: 100%">
+                            <p:messages id="msgs" showDetail="false" /> 
+                            <p:focus for="idFocus" />
+                            <p:column exportable="false" style="position: initial">
+                                <p:graphicImage value="/resources/images/icons/l_icon.png" />
+                            </p:column>
+                            <h:panelGrid columns="2" cellpadding="5">
+
+                                <h:outputLabel value="#{i18n['login.usuario']}" style="#{applicationMBean.estiloLabel}"/>
+                                <p:inputText id="idFocus" value="#{loginMBean.usuario}" size="30"   
+                                             style="#{applicationMBean.estiloObligatorio}"
+                                             label="#{i18n['login.usuario']}" 
+                                             required="true" >                                                   
+                                </p:inputText>      
+                                <h:outputLabel value="#{i18n['login.password']}"
+                                                style="#{applicationMBean.estiloLabel}" />
+                                <p:password id="isContrasena" value="#{loginMBean.contrasena}" label="#{i18n['login.password']}" 
+                                            feedback="false" style="#{applicationMBean.estiloObligatorio}"
+                                            size="30" required="true">                                    
+                                </p:password>                                  
+
+                            </h:panelGrid>
+                            <p:separator />
+                            <h:panelGrid columns="4" cellpadding="5">
+                                <p:commandButton icon="ui-icon ui-icon-disk" id="btnIngresar" value="#{i18n['login.ingresar']}" 
+                                                 action="#{loginMBean.ingresar}"  style="#{applicationMBean.estiloLabel}"
+                                                 update="pnlLogin" ajax="false" onclick="blockLogin.show()">
+                                </p:commandButton> 
+
+
+                            </h:panelGrid>   
+                            <h:outputLabel value="#{sessionMBean.mensajeExpiraSession}" style="color: red; font-weight: bold;" />
+                            <p:separator />
+
+                        </p:panel>
+
+                        <p:blockUI block="pnlLogin" widgetVar="blockLogin" />  
+                    </h:form> 
+
+                </div>
+            </div>
+        </h:body>
+
+    </f:view>
+</html>

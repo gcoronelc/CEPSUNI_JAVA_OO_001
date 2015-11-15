@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.1"
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd">
+
+ <application>
+        <message-bundle>sys.core.i18n.ApplicationResources</message-bundle>
+        <resource-bundle>
+            <base-name>sys.core.i18n.ApplicationResources</base-name>
+            <var>i18n</var>	  			  		
+        </resource-bundle>
+        <locale-config>
+            <default-locale>es</default-locale>
+        </locale-config>        
+        <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>  
+    </application>  
+    <form-login-config>
+        <form-login-page>/login.xhtml?faces-redirect=true</form-login-page>
+        <form-error-page>/login.xhtml?faces-redirect=true</form-error-page>
+    </form-login-config> 
+</faces-config>

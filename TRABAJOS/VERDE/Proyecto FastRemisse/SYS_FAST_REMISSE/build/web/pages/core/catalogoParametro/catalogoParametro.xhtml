@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"            
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/views/plantilla.xhtml">
+
+        <ui:define name="contenido">                 
+            <h:form onsubmit="return checkSubmit();"  id="frmPrincipal">                                
+
+                <p:panel id="pnlPrincipal" header="#{i18n['parametro.catalogo']}" style="#{applicationMBean.estiloTitulo}">
+                         <h:panelGrid id="pgFormDto" columns="10" cellpadding="4">
+                        <h:outputLabel value="#{i18n['general.label.id']}" styleClass="label" rendered="#{sessionMBean.accion != 1}"/>
+                        <h:outputText value="#{catalogoParametroMBean.dto.id}" rendered="#{sessionMBean.accion != 1}"/>
+
+                        <h:outputLabel value="#{i18n['catalogo.parametro.label.descripcion']}" styleClass="label"/>
+                        <p:inputText label="#{i18n['catalogo.parametro.label.descripcion']}" 
+                                     value="#{catalogoParametroMBean.dto.descripcion}"  readonly="#{sessionMBean.accion == 3}"
+                                     required="true" size="50" style="#{applicationMBean.estiloObligatorio}">
+                            <f:validateLength maximum="100" />
+                        </p:inputText>
+                        
+                        <h:outputLabel styleClass="label" value="#{i18n['catalogo.parametro.label.estado']}"/>                    
+                        <p:selectBooleanCheckbox value="#{catalogoParametroMBean.dto.estado}"  disabled="#{sessionMBean.accion == 3}"/>
+                    </h:panelGrid>          
+                    
+
+                </p:panel>
+                
+                <p:panel id="pnlAcciones">
+                    <h:panelGrid columns="10">
+                        <p:commandButton title="#{i18n['general.label.guardar']}" ajax="false"
+                                         icon="ui-icon ui-icon-disk"
+                                         onclick="return confirm('#{i18n.general_mensaje_confirmacion}');"
+                                         value="#{i18n['general.label.guardar']}" 
+                                         action="#{catalogoParametroMBean.guardar}">                                    
+                        </p:commandButton>  
+                        <p:spacer width="30" />
+                        <p:commandButton title="#{i18n['general.label.atras']}" ajax="false"
+                                         icon="ui-icon ui-icon-arrowreturnthick-1-w" immediate="true"
+                                         value="#{i18n['general.label.atras']}"  
+                                         action="#{catalogoParametroMBean.retroceder}">                                    
+                        </p:commandButton>
+                    </h:panelGrid>                    
+                </p:panel>
+
+                <p:panel id="pnlDetalle" header="#{i18n['parametro.titulo']}" style="#{applicationMBean.estiloTitulo}" rendered="#{catalogoParametroMBean.dto.id!=null}">
+                    <h:panelGrid id="pngTabla" columns="1">
+                        <p:dataTable id="tblPrincipal" value="#{catalogoParametroMBean.dto.listaParametros}" var="dto" widgetVar="widTable" 
+                                     emptyMessage="#{i18n['form.general.mensaje.no.registros']}" styleClass="estiloPanel"   >                        
+
+                            <p:column style="text-align:center;">
+                                <p:commandButton icon="ui-icon ui-icon-search" title="#{i18n['general.button.ver.tip']}"
+                                                 action="#{catalogoParametroMBean.verParametro}" ajax="false">
+                                    <f:setPropertyActionListener value="#{dto}" target="#{catalogoParametroMBean.parametroDto}" />                                                                    
+                                </p:commandButton>
+                                <p:spacer width="20"/>
+                                <p:commandButton icon="ui-icon ui-icon-pencil" title="#{i18n['general.button.editar.tip']}"
+                                                 action="#{catalogoParametroMBean.editarParametro}" ajax="false">
+                                    <f:setPropertyActionListener value="#{dto}" target="#{catalogoParametroMBean.parametroDto}" />                                                                    
+                                </p:commandButton>
+                            </p:column>
+                            <p:column headerText="#{i18n['general.label.id']}"  styleClass="general">
+                                <h:outputText value="#{dto.id}" styleClass="general" />
+                            </p:column>
+                            <p:column headerText="#{i18n['parametro.label.descripcion']}" sortBy="#{dto.descripcion}" styleClass="general">
+                                <h:outputText value="#{dto.descripcion}" styleClass="general" />
+                            </p:column>
+                            <p:column headerText="#{i18n['parametro.label.descripcion.corta']}" styleClass="general">
+                                <h:outputText value="#{dto.descripcionCorta}" styleClass="general"/>
+                            </p:column>
+                            <p:column headerText="#{i18n['parametro.label.estado']}" sortBy="#{dto.estadoTexto}" styleClass="general">
+                                <h:outputText value="#{dto.estadoTexto}" styleClass="general"/>
+                            </p:column>
+                            <p:column headerText="#{i18n['parametro.label.tipo']}" styleClass="general">
+                                <h:outputText value="#{dto.tipo}" styleClass="general" />
+                            </p:column>                    
+                            <p:column headerText="#{i18n['parametro.label.valor.entero']}" style="text-align: right">
+                                <h:outputText value="#{dto.valorEntero}" styleClass="general" />
+                            </p:column>                    
+                            <p:column headerText="#{i18n['parametro.label.valor.fecha']}" styleClass="general">
+                                <h:outputText value="#{dto.valorFecha}" styleClass="general" >
+                                    <f:convertDateTime pattern="#{applicationMBean.formatoFecha}"/>
+                                </h:outputText>
+                            </p:column>                    
+                            <p:column headerText="#{i18n['parametro.label.valor.real']}" style="text-align: right">
+                                <h:outputText value="#{dto.valorReal}" styleClass="general" />
+                            </p:column>                    
+                            <p:column headerText="#{i18n['parametro.label.valor.cadena']}" styleClass="general">
+                                <h:outputText value="#{dto.valorCadena}" />
+                            </p:column>                    
+                            <p:column headerText="#{i18n['parametro.label.valor.boolean']}" style="text-align: center">
+                                <h:outputText value="#{dto.valorBooleanTexto}" styleClass="general" />
+                            </p:column>                    
+
+                            <p:column headerText="#{i18n['parametro.label.parametro.padre']}" styleClass="general">
+                                <h:outputText value="#{dto.parametroPadreDto.descripcion}" styleClass="general" />
+                            </p:column> 
+                            <f:facet name="header">                                
+                                <p:outputPanel style="float: left"> 
+                                    <p:commandButton title="#{i18n['general.label.nuevo']}"
+                                                     icon="ui-icon ui-icon-plus"
+                                                     value="#{i18n['general.label.nuevo']}" 
+                                                     ajax="false"
+                                                     action="#{catalogoParametroMBean.nuevoParametro}">                                    
+                                    </p:commandButton>    
+                                </p:outputPanel>
+                            </f:facet>
+                        </p:dataTable>
+
+
+                    </h:panelGrid>
+                </p:panel>
+
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

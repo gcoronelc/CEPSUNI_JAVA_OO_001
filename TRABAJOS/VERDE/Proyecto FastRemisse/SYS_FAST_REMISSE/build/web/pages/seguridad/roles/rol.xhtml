@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"            
+      xmlns:p="http://primefaces.org/ui">
+ 
+        <ui:composition template="/views/plantilla.xhtml">
+        <ui:define name="contenido">             
+            <h:form onsubmit="return checkSubmit();"  id="frmPrincipal">
+                <p:panel id="pnlPrincipal" header="#{i18n['rol.panel']}" style="#{applicationMBean.estiloTitulo}">
+                    <h:panelGrid id="pgFormDto" columns="10" cellpadding="4">
+                            <h:outputLabel for="itNombre" styleClass="label" value="#{i18n['rol.descripcion']}"/>
+                        <p:inputText id="itNombre" label="#{i18n['rol.descripcion']}" 
+                                     value="#{rolMBean.dto.descripcion}"  readonly="#{sessionMBean.accion == 3}"
+                                     required="true" size="50" styleClass="txtCampoObligatorio">
+                            <f:validateLength maximum="100" minimum="5" />
+                        </p:inputText>
+ 
+                        <h:outputLabel  styleClass="label" value="#{i18n['rol.estado']}"/>                    
+                        <p:selectBooleanCheckbox value="#{rolMBean.dto.estado}"  style="#{applicationMBean.estilo}"  disabled="#{sessionMBean.accion == 3}"/>
+
+                    </h:panelGrid>
+                    <f:facet name="options" >  
+                        <p:menu rendered="#{rolMBean.dto.id!=null}">  
+                            <p:submenu>  
+                                <p:menuitem value="#{i18n['general.label.propietario']}"  icon="ui-icon ui-icon-person" onclick="dlgPropietarios.show();" style="#{applicationMBean.estiloMenu}" ajax="true" />                                
+                                <p:menuitem value="#{i18n['general.label.historial']}"  icon="ui-icon ui-icon-calculator" onclick="dlgBitacoraEntidad.show();" style="#{applicationMBean.estiloMenu}" ajax="true" />                                
+                            </p:submenu>  
+                        </p:menu>  
+                    </f:facet>  
+                </p:panel>
+
+                <p:panel id="pnlAcciones">
+                    <h:panelGrid columns="10">
+
+                        <p:commandButton title="#{i18n['general.label.guardar']}" ajax="false"
+                                         icon="ui-icon ui-icon-disk"
+                                         onclick="return confirm('#{i18n.general_mensaje_confirmacion}');"
+                                         value="#{i18n['general.label.guardar']}"  
+                                         action="#{rolMBean.guardar}">                                    
+                        </p:commandButton>                        
+                        <p:spacer width="10" />
+                        <p:commandButton title="#{i18n['general.label.atras']}" ajax="false"
+                                         icon="ui-icon ui-icon-arrowreturnthick-1-w" immediate="true"
+                                         value="#{i18n['general.label.atras']}" 
+                                         action="#{rolMBean.retroceder}">                                    
+                        </p:commandButton>                   
+
+                    </h:panelGrid>
+                     
+                </p:panel>
+                
+                
+                <p:panel header="#{i18n['opcion.sistema.titulo.permisos']}" style="#{applicationMBean.estiloTitulo}" rendered="#{sessionMBean.accion != 1}" >
+                    <p:contextMenu for="treeSingle">  
+                        <p:menuitem value="#{i18n['opcion.sistema.cambiar.estado']}" actionListener="#{rolMBean.cambiarEstado()}" icon="ui-icon-refresh"  style="#{applicationMBean.estiloMenu}"
+                                    ajax="true"
+                                    update="treeSingle :frmMenuBar:menuInicio"/>                        
+                    </p:contextMenu>  
+                    <h:panelGrid id="idPngTree">
+                        <p:treeTable id="treeSingle" value="#{rolMBean.permisos}" var="dto" 
+                                     selectionMode="single"  style="#{applicationMBean.estilo}"                                 
+                                     selection="#{rolMBean.selectedOpcion}">                          
+                            <p:column>  
+                                <f:facet name="header">  
+                                    #{i18n['opcion.sistema.descripcion']}  
+                                </f:facet>  
+                                <h:outputText value="#{dto.descripcion}" />  
+                            </p:column>   
+                            <p:column>  
+                                <f:facet name="header">  
+                                    #{i18n['opcion.sistema.estado']}  
+                                </f:facet>  
+                                <p:selectBooleanButton value="#{dto.permiso}" rendered="#{dto.id!=0}" offLabel="." onLabel="."  disabled="true" onIcon="ui-icon-check" offIcon="ui-icon-close" />
+                            </p:column>   
+                        </p:treeTable>
+                    </h:panelGrid>
+                 
+                </p:panel>
+                      </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

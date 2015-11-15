@@ -1,0 +1,294 @@
+.estiloCelda1{
+	background-color: green;
+	font-weight: bold;		
+	color: white;		
+}
+
+.formulario {
+    font-size:10px;
+}
+
+.tituloBannerSistema{
+    font-size:   20px;
+    font-weight: bold;
+    font-family: Verdana, sans-serif;
+    color:#004492;
+    text-align: center;
+}
+
+
+.tituloPantalla{
+        color: #008200;
+	font-weight:bold;
+	font-size:12px;
+	FONT-FAMILY: 'Arial';
+	text-transform:uppercase;	
+}	
+
+.label{
+	FONT-FAMILY:'Arial'!important;
+	color:#000000 !important;
+	font-size:10px !important;
+	text-transform:uppercase !important;        
+        font-weight: bold !important;
+}
+
+.subTitulo{
+	FONT-FAMILY:'Arial'!important;
+	color:#C41F1F !important;
+	font-size:10px !important;
+	text-transform:uppercase !important;        
+        font-weight: bold !important;
+}
+
+.mensaje{
+	FONT-FAMILY:'Arial';
+	color:#4297FF;
+	font-size:10px;
+	text-transform:uppercase;
+        font-weight: bold
+}
+
+.mensajeAzul{
+	FONT-FAMILY:'Arial';
+	color:#004492;
+	font-size:10px;
+	text-transform:uppercase;
+        font-weight: bold
+}
+
+.mensajeRojo{
+	FONT-FAMILY:'Arial';
+	color:#D14836;
+	font-size:10px;
+	text-transform:uppercase;
+        font-weight: bold
+}
+.mensajeCeleste{
+	FONT-FAMILY:'Arial';
+	color:#4297d7;
+	font-size:10px;
+	text-transform:uppercase;
+        font-weight: bold
+}
+
+.mensajeMorado{
+	FONT-FAMILY:'Arial';
+	color:#6F0F5F;
+	font-size:10px;
+	text-transform:uppercase;
+        font-weight: bold
+}
+
+.mensajeVerde{
+	FONT-FAMILY:'Arial'; 
+	color:#008200;
+	font-size:10px;
+	text-transform:uppercase;
+        font-weight: bold
+}
+
+
+.txtCampo{
+	FONT-FAMILY:'Arial' !important;
+	color:#000000 !important;
+	font-size:10px !important;
+        border-color:#787878 !important;
+        text-transform:uppercase !important;        
+}
+
+.estiloPanelGrid{
+	FONT-FAMILY:'Arial' !important;
+	color:#000000 !important;
+	font-size:10px !important;
+        border-color:#FFFFFF !important;
+        text-transform:uppercase !important;        
+}
+
+.estiloPanel{
+	FONT-FAMILY:'Arial' !important;
+	color:#000000 !important;
+	font-size:10px !important;
+        border-color:#787878 !important;
+        text-transform:uppercase !important;        
+}
+
+.txtCampoObligatorio{
+	FONT-FAMILY:'Arial' !important; 
+        color:#000000 !important;
+        font-size:10px !important;
+        border-color: #004492 !important;            
+        text-transform:uppercase !important;        
+}
+
+.menuItem{
+	FONT-FAMILY:'Arial'; color:#008200;font-size:9px;font-weight: bold;        
+}
+
+.subMenu{
+	FONT-FAMILY:'Arial'; color:#004492;font-size:9px;font-weight: bold;        
+}
+
+.txtTituloHeader{
+	
+	text-transform:uppercase;
+        border:0;
+        color:#000000;
+        font-weight: bold;
+        font-family: verdana, sans-serif; 
+        font-size:11px;
+}
+
+.valueColTable{
+	FONT-FAMILY: 'Arial';
+	font-size: 8px;
+	text-transform:uppercase;
+}
+
+.estiloLink{
+	FONT-FAMILY: 'Arial';
+	text-decoration: underline;
+	font-size: 10px;
+	text-transform:uppercase;
+}
+
+.general{
+    font-size: 10px;
+    text-transform:uppercase;
+}
+
+.botonesTabla{
+	text-align:center;
+}
+
+.estiloBoton{
+	FONT-FAMILY: 'Arial';
+	text-decoration: underline;
+	font-size: 10px;
+	text-transform:uppercase;
+	background-color: #C41F1F;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+.estiloMenu{
+	FONT-FAMILY: 'Arial';
+	text-decoration: underline;
+	font-size: 12px;
+	text-transform:uppercase;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.estiloSubTitulo{
+	FONT-FAMILY: 'Arial';	
+	font-size: 12px;
+	text-transform:uppercase;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.estiloResaltaInformacion{
+	FONT-FAMILY: 'Arial';	
+	font-size: 11px;
+	text-transform:uppercase;
+	font-weight: bold;
+	color: #ffffff;
+        background: #004492;
+        color: #F7F7F7;
+}
+
+.botonAzul {
+    background: #004492;
+    color: #F7F7F7;
+    font-size: 10px;
+    text-transform:uppercase;
+    font-weight: bold;
+}
+
+.botonRojo {
+    background: #bd1e13;
+    color: #F7F7F7;
+    font-size: 10px;
+    text-transform:uppercase;
+    font-weight: bold;
+}
+
+.botonVerde {
+    background: #008200;
+    color: #F7F7F7;
+    font-size: 10px;
+    text-transform:uppercase;
+    font-weight: bold;
+}
+
+.botonCeleste {
+    background: #4297d7;
+    color: #F7F7F7;
+    font-size: 10px;
+    text-transform:uppercase;
+    font-weight: bold;
+}
+ 
+.botonNaranja {
+    background: #fc5b04;
+    color: #F7F7F7;
+    font-size: 10px;
+    text-transform:uppercase;
+    font-weight: bold;
+}
+
+.botonPlomo {
+    background: #787878;
+    color: #F7F7F7;
+    font-size: 10px;
+    text-transform:uppercase;
+    font-weight: bold;
+}
+
+.ui-messages-info, .ui-message-info {
+color: #EFF4F8;
+background-color: #13BB3B !important;
+}
+
+.ui-messages-error, .ui-message-error {
+color: #F5ECEC;
+background-color: #CC0303;
+}
+
+.ui-messages-info, .ui-messages-warn, .ui-messages-error, .ui-messages-fatal {
+border: 1px solid;
+margin: 10px 0px;
+padding: 5px 5px 5px 5px;
+margin-left: 8px !important;
+font-weight: bold;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-list-item {
+text-align: left;
+text-transform:uppercase !important;        
+font-size: 10px !important; 
+}
+
+.ui-inputfield, .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield {
+border-color:#787878 !important;
+    text-transform:uppercase !important;        
+    font-size: 10px !important;
+}
+
+.ui-autocomplete-panel .ui-autocomplete-list-item {
+ text-transform:uppercase !important;        
+ font-size: 10px !important;
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+border: 1px solid #561058 !important;
+background: #D1B4CE !important;
+color: #363636 !important;
+
+}
+
+.ui-autocomplete-item ui-autocomplete-row ui-widget-content{
+     text-transform:uppercase !important;        
+ font-size: 10px !important;
+}

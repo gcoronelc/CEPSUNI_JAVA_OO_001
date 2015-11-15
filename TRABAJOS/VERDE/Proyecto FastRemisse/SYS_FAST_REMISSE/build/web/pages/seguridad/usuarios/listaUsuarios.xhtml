@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"           
+      xmlns:p="http://primefaces.org/ui">
+
+        <ui:composition template="/views/plantilla.xhtml">
+
+        <ui:define name="contenido">     
+
+            <h:form onsubmit="return checkSubmit();"  id="frmPrincipal">   
+                <p:panel id="pnlBusqueda"  header="#{i18n['usuario.titulo']}" style="#{applicationMBean.estiloTitulo}">
+                    <h:panelGrid id="pgFormFilter" columns="13" cellpadding="4">                        
+                        <h:outputLabel value="#{i18n['general.label.id']}" styleClass="label"/>
+                        <p:inputText value="#{usuarioMBean.dtoFiltro.id}" onkeypress="return fn_validaTecla('entero',this)" style="#{applicationMBean.estilo}" size="15">
+                            <f:validateLongRange minimum="0" maximum="999999" />
+                        </p:inputText>
+
+                      
+                        <h:outputLabel value="#{i18n['usuario.label.login']}" styleClass="label"/>
+                        <p:inputText label="#{i18n['usuario.label.login']}"  value="#{usuarioMBean.dtoFiltro.login}" 
+                                     size="20" style="#{applicationMBean.estilo}">
+                            <f:validateLength maximum="30" minimum="0" />
+                        </p:inputText>         
+                        <p:spacer width="10" />
+                        <h:outputLabel value="#{i18n['usuario.label.rol']}" styleClass="label"/>
+                        <p:inputText label="#{i18n['usuario.label.rol']}"  value="#{usuarioMBean.dtoFiltro.rolDto.descripcion}" 
+                                     size="50" style="#{applicationMBean.estilo}">
+                            <f:validateLength maximum="30" minimum="0" />
+                        </p:inputText>         
+                        <p:spacer width="10" />
+                        <p:commandButton icon="ui-icon ui-icon-search"
+                                         title="#{i18n['general.label.buscar']}"
+                                         value="#{i18n['general.label.buscar']}" ajax="false" 
+                                          
+                                         actionListener="#{usuarioMBean.buscar}">
+                            <p:ajax update ="pnlTabla pgFormFilter"/>
+                        </p:commandButton>  
+                        <p:spacer width="10" />
+                        <h:outputText  value="#{usuarioMBean.lista.size()} #{i18n['form.general.mensaje.cantidad.encontrada']}" styleClass="mensaje" rendered="#{usuarioMBean.lista!=null}"/>
+                    </h:panelGrid>      
+                </p:panel>
+
+
+                <p:panel id="pnlTabla" header="#{i18n['general.panel.titulo.busqueda.resultado']}" style="#{applicationMBean.estiloTitulo}">
+                    <h:panelGrid columns="1">
+
+
+                        <p:dataTable id="tblPrincipal" value="#{usuarioMBean.lista}" var="dto" paginatorPosition="top" styleClass="estiloPanel"    
+                                     paginator="true" rows="#{sessionMBean.cantidadRegistros}"  widgetVar="widTable">                        
+                            <p:column>
+                                <p:commandButton icon="ui-icon ui-icon-search" title="#{i18n['general.button.ver.tip']}"
+                                                 action="#{usuarioMBean.ver}" ajax="false"
+                                                 rendered="#{sessionMBean.privilegiosOpciones['163']=='true'}">
+                                    <f:setPropertyActionListener value="#{dto}" target="#{usuarioMBean.dto}" />                                                                    
+                                </p:commandButton>
+                                <p:spacer width="20"/>
+                                <p:commandButton icon="ui-icon ui-icon-pencil" title="#{i18n['general.button.editar.tip']}"
+                                                 action="#{usuarioMBean.editar}" ajax="false"
+                                                >
+                                    <f:setPropertyActionListener value="#{dto}" target="#{usuarioMBean.dto}" />                                                                    
+                                </p:commandButton>
+                                <p:spacer width="20"/>
+                                <p:commandButton icon="ui-icon ui-icon-shuffle" title="#{i18n['usuario.titulo.cambiar.contrasena']}"
+                                                 action="#{usuarioMBean.formatearContrasena}" ajax="false"
+                                                 rendered="#{sessionMBean.privilegiosOpciones['165']=='true'}">
+                                    <f:setPropertyActionListener value="#{dto}" target="#{usuarioMBean.dto}" />                                                                    
+                                </p:commandButton>                               
+                            </p:column>
+                            <p:column headerText="#{i18n['general.label.id']}"  style="text-align:center;">
+                                <h:outputText value="#{dto.id}" styleClass="general" />
+                            </p:column>
+                            <p:column headerText="#{i18n['usuario.label.nombres.completos']}" sortBy="#{dto.nombresCompletos}" >
+                                <h:outputText value="#{dto.nombresCompletos}" styleClass="general" />
+                            </p:column>
+                            <p:column headerText="#{i18n['usuario.label.login']}" sortBy="#{dto.login}" >
+                                <h:outputText value="#{dto.login}" styleClass="general" />
+                            </p:column>
+                             
+                            <p:column headerText="#{i18n['usuario.label.rol']}" sortBy="#{dto.rolDto.descripcion}" >
+                                <h:outputText value="#{dto.rolDto.descripcion}" styleClass="general" />
+                            </p:column>
+
+                            <p:column headerText="#{i18n['general.label.estado']}">
+                                <h:outputText value="#{dto.estadoDto.descripcion}" styleClass="general"/>
+                            </p:column>        
+                            <f:facet name="header">                                
+                                <p:outputPanel style="float: left"> 
+                                    <p:commandButton title="#{i18n['general.label.nuevo']}" 
+                                                     icon="ui-icon ui-icon-plus"
+                                                     value="#{i18n['general.label.nuevo']}" 
+                                                        ajax="false"                                        
+                                                     action="#{usuarioMBean.nuevo}"
+                                                    >                                   
+                                    </p:commandButton>
+                                </p:outputPanel>
+                            </f:facet>
+
+                           
+                        </p:dataTable>
+
+                    </h:panelGrid>
+                    
+                </p:panel>
+
+            </h:form>
+           
+        </ui:define>
+    </ui:composition>
+</html>
